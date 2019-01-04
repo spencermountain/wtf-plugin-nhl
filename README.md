@@ -4,21 +4,21 @@
   <div><img src="https://cloud.githubusercontent.com/assets/399657/23590290/ede73772-01aa-11e7-8915-181ef21027bc.png" /></div>
 
   <div align="center">
-    <a href="https://npmjs.org/package/wtf-mlb">
-      <img src="https://img.shields.io/npm/v/wtf-mlb.svg?style=flat-square" />
+    <a href="https://npmjs.org/package/wtf-nhl">
+      <img src="https://img.shields.io/npm/v/wtf-nhl.svg?style=flat-square" />
     </a>
-    <a href="https://codecov.io/gh/spencermountain/wtf-mlb">
-      <img src="https://codecov.io/gh/spencermountain/wtf-mlb/branch/master/graph/badge.svg" />
+    <a href="https://codecov.io/gh/spencermountain/wtf-nhl">
+      <img src="https://codecov.io/gh/spencermountain/wtf-nhl/branch/master/graph/badge.svg" />
     </a>
-    <a href="https://unpkg.com/wtf-mlb/builds/wtf-mlb.min.js">
-      <img src="https://badge-size.herokuapp.com/spencermountain/wtf-mlb/master/builds/wtf-mlb.min.js" />
+    <a href="https://unpkg.com/wtf-nhl/builds/wtf-nhl.min.js">
+      <img src="https://badge-size.herokuapp.com/spencermountain/wtf-nhl/master/builds/wtf-nhl.min.js" />
     </a>
   </div>
 
   <sub>
     by
     <a href="https://spencermountain.github.io/">Spencer Kelly</a> and
-    <a href="https://github.com/spencermountain/wtf-mlb/graphs/contributors">
+    <a href="https://github.com/spencermountain/wtf-nhl/graphs/contributors">
       contributors
     </a>
   </sub>
