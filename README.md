@@ -32,16 +32,28 @@
 wtf-nhl is a wrapper of [wtf_wikipedia](https://github.com/spencermountain/wtf_wikipedia/) that supports a bunch of different variants of nhl game log variations, that are used sometimes in the wild.
 
 ```js
-wtfNHL.fetch('Toronto Blue Jays', 2018).then(console.log)
-//[{
-//   date: 'April 1',
-//   team: 'Reds',
-//   home: false,
-//   result: { us: 6, them: 5, win: true },
-//   record: { wins: 3, losses: 0, games: 3
-// },
-//  ....
-
+wtfNHL.fetch('Toronto Maple Leafs', 2018).then(console.log)
+// {
+//   roster:[ { name: 'Mitch Marner',
+//        games: 40,
+//        goals: 15,
+//        assists: 40,
+//        points: 55,
+//        plusMinus: 16 },
+//        ...
+//      ]
+//   games: [{ game: 1,
+//        date: 'October 3',
+//        opponent: 'Montreal Canadiens',
+//        location: 'Scotiabank Arena',
+//        score: { win: 3, loss: 2 },
+//        overtime: true,
+//        record: { wins: 1, losses: 0, ties: 0 },
+//        attendance: null,
+//        points: 2 },
+//        ...
+//   ]
+// }
 
 //or if you already have the doc,
 var json = wtfNHL.parse(doc)
@@ -49,7 +61,7 @@ var json = wtfNHL.parse(doc)
 
 to do a bunch of years in a row:
 ```js
-wtfNHL.history('St. Louis Cardinals', 1992, 1997).catch(console.log).then(data => {
+wtfNHL.history('St. Louis Blues', 1992, 1997).catch(console.log).then(data => {
   data = data.map((obj) => {
     //grab just the date and attendance
     obj.games = obj.games.map((g) => [g.date, g.attendance])

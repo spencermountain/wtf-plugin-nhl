@@ -1,7 +1,7 @@
 const wtfNHL = require('./src')
 // const wtf = require('wtf_wikipedia')
 
-wtfNHL.fetch('Dallas Stars', 2018).catch(console.log).then((obj => {
-  console.log(obj.games)
+wtfNHL.fetch('Toronto Maple Leafs', 2018).catch(console.log).then((obj => {
+  console.log(obj)
 // console.log(JSON.stringify(obj.roster, null, 2))
 }))

@@ -3,7 +3,7 @@ const parseGames = require('./parseGames')
 const parseTitle = function(season = '') {
   let num = season.match(/[0-9]+/) || []
   let year = Number(num[0]) || season
-  let team = season.replace(/[0-9-]+/, '').replace(/_/g, ' ').replace(' season', '')
+  let team = season.replace(/[0-9\-–]+/, '').replace(/_/g, ' ').replace(' season', '')
   return {
     year: year,
     season: season,

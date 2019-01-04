@@ -18,14 +18,18 @@ const parseScore = function(score = '') {
     loss: Number(arr[2])
   }
 }
+
+
 const parseGame = function(row) {
   let attendance = row.attendance || ''
   attendance = Number(attendance.replace(/,/, '')) || null
   let res = {
-    game: Number(row['#']),
+    game: Number(row['#'] || row.Game),
     date: row.date || row.Date,
-    visitor: row.visitor || row.Visitor,
     home: row.home || row.Home,
+    visitor: row.visitor || row.Visitor,
+    opponent: row.Opponent,
+    location: row.Location,
     score: parseScore(row.score || row.Score),
     overtime: (row.ot || row.OT || '').toLowerCase() === 'ot',
     // goalie: row.decision,
