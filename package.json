@@ -1,8 +1,9 @@
 {
   "name": "wtf-nhl",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "parse NHL hockey game data from wikipedia",
   "main": "src/index.js",
+  "unpkg": "builds/wtf-nhl.min.js",
   "scripts": {
     "watch": "amble ./scratch.js",
     "test": "\"node_modules/.bin/tape\" \"./tests/*.test.js\" | \"node_modules/.bin/tap-dancer\" --color",
@@ -19,7 +20,7 @@
   },
   "homepage": "https://github.com/spencermountain/wtf-nhl#readme",
   "dependencies": {
-    "wtf_wikipedia": "7.2.6"
+    "wtf_wikipedia": "7.2.7"
   },
   "devDependencies": {
     "@babel/core": "7.2.2",

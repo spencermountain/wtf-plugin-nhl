@@ -1,4 +1,4 @@
-/* wtf-nhl v0.0.2
+/* wtf-nhl v0.0.3
    github.com/spencermountain/wtf-nhl
    MIT
 */
@@ -6,7 +6,7 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.wtfNHL = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(_dereq_,module,exports){
 "use strict";
 
-module.exports = '0.0.2';
+module.exports = '0.0.3';
 
 },{}],2:[function(_dereq_,module,exports){
 var __root__ = (function (root) {
@@ -494,28 +494,28 @@ module.exports.default = fetch;
 
 },{}],3:[function(_dereq_,module,exports){
 module.exports={
-  "_from": "wtf_wikipedia@7.2.6",
-  "_id": "wtf_wikipedia@7.2.6",
+  "_from": "wtf_wikipedia@7.2.7",
+  "_id": "wtf_wikipedia@7.2.7",
   "_inBundle": false,
-  "_integrity": "sha512-mKrSdAU1pUj+LSisJTxFyP0qyjx4NdjxAEnYBoGaBGsP5z6f/xEhmqCMkNJmJWO1gEMEIT0epCkFFhLxShmFGw==",
+  "_integrity": "sha512-qdkZ6Ojy2Mo34fPpx5oEsFb/aTGUEQk9tADesnDY43E0gnCI3ZP+yVWu4xc91MGpnmNNZO+XEKkF6R2ASB5PQg==",
   "_location": "/wtf_wikipedia",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "wtf_wikipedia@7.2.6",
+    "raw": "wtf_wikipedia@7.2.7",
     "name": "wtf_wikipedia",
     "escapedName": "wtf_wikipedia",
-    "rawSpec": "7.2.6",
+    "rawSpec": "7.2.7",
     "saveSpec": null,
-    "fetchSpec": "7.2.6"
+    "fetchSpec": "7.2.7"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/wtf_wikipedia/-/wtf_wikipedia-7.2.6.tgz",
-  "_shasum": "566fe64805abdbe2a275b02c730d1289436084d4",
-  "_spec": "wtf_wikipedia@7.2.6",
+  "_resolved": "https://registry.npmjs.org/wtf_wikipedia/-/wtf_wikipedia-7.2.7.tgz",
+  "_shasum": "d51209e4b28bd4db84ad1dfab6afd1e38810af4a",
+  "_spec": "wtf_wikipedia@7.2.7",
   "_where": "/Users/spencer/mountain/nhl-wtf",
   "author": {
     "name": "Spencer Kelly",
@@ -584,7 +584,7 @@ module.exports={
     "watch": "amble ./scratch.js"
   },
   "unpkg": "builds/wtf_wikipedia.min.js",
-  "version": "7.2.6"
+  "version": "7.2.7"
 }
 
 },{}],4:[function(_dereq_,module,exports){
@@ -1694,7 +1694,7 @@ const parseSections = function(wiki, options) {
 
 module.exports = parseSections;
 
-},{"../03-paragraph":46,"../templates":123,"./Section":16,"./heading":17,"./reference":20,"./start-to-end":27,"./table":33}],19:[function(_dereq_,module,exports){
+},{"../03-paragraph":46,"../templates":124,"./Section":16,"./heading":17,"./reference":20,"./start-to-end":27,"./table":33}],19:[function(_dereq_,module,exports){
 const setDefaults = _dereq_('../../_lib/setDefaults');
 const toLatex = _dereq_('./toLatex');
 const toHtml = _dereq_('./toHtml');
@@ -1821,7 +1821,7 @@ const parseRefs = function(wiki, data) {
 };
 module.exports = parseRefs;
 
-},{"../../04-sentence":59,"../../templates/_parsers/parse":106,"./Reference":19}],21:[function(_dereq_,module,exports){
+},{"../../04-sentence":59,"../../templates/_parsers/parse":107,"./Reference":19}],21:[function(_dereq_,module,exports){
 
 //
 const toHtml = function(c, options) {
@@ -1923,7 +1923,7 @@ const parseElection = function(wiki, section) {
 };
 module.exports = parseElection;
 
-},{"../../templates":123}],26:[function(_dereq_,module,exports){
+},{"../../templates":124}],26:[function(_dereq_,module,exports){
 const parseSentence = _dereq_('../../04-sentence/').oneSentence;
 const Image = _dereq_('../../image/Image');
 //okay, <gallery> is a xml-tag, with newline-seperated data, somehow pivoted by '|'...
@@ -2320,6 +2320,10 @@ const findRows = function(lines) {
     } else {
       //look for '||' inline row-splitter
       line = line.split(/(?:\|\||!!)/);
+      //support newline -> '||'
+      if (!line[0] && line[1]) {
+        line.shift();
+      }
       line.forEach((l) => {
         l = l.replace(/^\| */, '');
         l = l.trim();
@@ -8541,6 +8545,7 @@ const fetch = _dereq_('cross-fetch');
 const toMarkdown = _dereq_('./toMarkdown');
 const toHtml = _dereq_('./toHtml');
 const toLatex = _dereq_('./toLatex');
+const toJson = _dereq_('./toJson');
 const server = 'https://wikipedia.org/wiki/Special:Redirect/file/';
 const aliasList = _dereq_('../_lib/aliases');
 
@@ -8579,10 +8584,16 @@ const methods = {
     return str.replace(/_/g, ' ');
   },
   caption() {
-    return this.data.text || '';
+    if (this.data.caption) {
+      return this.data.caption.text();
+    }
+    return '';
   },
   links() {
-    return []; //not ready yet
+    if (this.data.caption) {
+      return this.data.caption.links();
+    }
+    return [];
   },
   url() {
     return server + makeSrc(this.file());
@@ -8624,12 +8635,9 @@ const methods = {
     options = options || {};
     return toHtml(this, options);
   },
-  json: function() {
-    return {
-      file: this.file(),
-      url: this.url(),
-      thumb: this.thumbnail(),
-    };
+  json: function(options) {
+    options = options || {};
+    return toJson(this, options);
   },
   text: function() {
     return '';
@@ -8647,13 +8655,14 @@ Image.prototype.src = Image.prototype.url;
 Image.prototype.thumb = Image.prototype.thumbnail;
 module.exports = Image;
 
-},{"../_lib/aliases":78,"./toHtml":87,"./toLatex":88,"./toMarkdown":89,"cross-fetch":2}],86:[function(_dereq_,module,exports){
+},{"../_lib/aliases":78,"./toHtml":87,"./toJson":88,"./toLatex":89,"./toMarkdown":90,"cross-fetch":2}],86:[function(_dereq_,module,exports){
 const i18n = _dereq_('../_data/i18n');
 const Image = _dereq_('./Image');
 const parseSentence = _dereq_('../04-sentence').oneSentence;
 const isFile = new RegExp('(' + i18n.images.concat(i18n.files).join('|') + '):', 'i');
 let fileNames = `(${i18n.images.concat(i18n.files).join('|')})`;
 const file_reg = new RegExp(fileNames + ':(.+?)[\\||\\]]', 'i');
+const altText = /^alt ?=/i;
 
 //style directives for Wikipedia:Extended_image_syntax
 const imgLayouts = {
@@ -8692,10 +8701,17 @@ const oneImage = function(img) {
     //try to grab other metadata, too
     img = img.replace(/^\[\[/, '');
     img = img.replace(/\]\]$/, '');
+
     //https://en.wikipedia.org/wiki/Wikipedia:Extended_image_syntax
-    // [[File:Name|Type|Border|Location|Alignment|Size|link=Link|alt=Alt|lang=Langtag|Caption]]
+    // - [[File:Name|Type|Border|Location|Alignment|Size|link=Link|alt=Alt|lang=Langtag|Caption]]
     let arr = img.split('|');
     arr = arr.slice(1);
+    //parse-out alt text, if explicitly given
+    arr.forEach((s) => {
+      if (altText.test(s) === true) {
+        obj.alt = s.replace(altText, '');
+      }
+    });
     //remove 'thumb' and things
     arr = arr.filter((str) => imgLayouts.hasOwnProperty(str) === false);
     if (arr[arr.length - 1]) {
@@ -8731,6 +8747,42 @@ const makeImage = (img) => {
 module.exports = makeImage;
 
 },{}],88:[function(_dereq_,module,exports){
+const setDefaults = _dereq_('../_lib/setDefaults');
+
+const defaults = {
+  caption: true,
+  alt: true,
+  links: true,
+  thumb: true,
+  url: true,
+};
+//
+const toJson = function(img, options) {
+  options = setDefaults(options, defaults);
+  let json = {
+    file: img.file(),
+  };
+  if (options.thumb !== false) {
+    json.thumb = img.thumbnail();
+  }
+  if (options.url !== false) {
+    json.url = img.url();
+  }
+  //add captions
+  if (options.caption !== false && img.data.caption) {
+    json.caption = img.caption();
+    if (options.links !== false && img.data.caption.links()) {
+      json.links = img.links();
+    }
+  }
+  if (options.alt !== false && img.data.alt) {
+    json.alt = img.alt();
+  }
+  return json;
+};
+module.exports = toJson;
+
+},{"../_lib/setDefaults":83}],89:[function(_dereq_,module,exports){
 //
 const toLatex = function(image) {
   let alt = image.alt();
@@ -8743,7 +8795,7 @@ const toLatex = function(image) {
 };
 module.exports = toLatex;
 
-},{}],89:[function(_dereq_,module,exports){
+},{}],90:[function(_dereq_,module,exports){
 //markdown images are like this: ![alt text](href)
 const doImage = (image) => {
   let alt = image.data.file.replace(/^(file|image):/i, '');
@@ -8752,7 +8804,7 @@ const doImage = (image) => {
 };
 module.exports = doImage;
 
-},{}],90:[function(_dereq_,module,exports){
+},{}],91:[function(_dereq_,module,exports){
 const fetch = _dereq_('./_fetch/fetch');
 const random = _dereq_('./_fetch/random');
 const category = _dereq_('./_fetch/category');
@@ -8776,7 +8828,7 @@ wtf.version = version;
 
 module.exports = wtf;
 
-},{"../package":3,"./01-document/index.js":8,"./_fetch/category":75,"./_fetch/fetch":76,"./_fetch/random":77}],91:[function(_dereq_,module,exports){
+},{"../package":3,"./01-document/index.js":8,"./_fetch/category":75,"./_fetch/fetch":76,"./_fetch/random":77}],92:[function(_dereq_,module,exports){
 const toMarkdown = _dereq_('./toMarkdown');
 const toHtml = _dereq_('./toHtml');
 const toLatex = _dereq_('./toLatex');
@@ -8821,7 +8873,7 @@ const methods = {
     obj.text = '';
     return new Image(obj);
   },
-  get : function(key) {
+  get : function( key = '' ) {
     key = key.toLowerCase();
     let keys = Object.keys(this.data);
     for(let i = 0; i < keys.length; i += 1) {
@@ -8874,7 +8926,7 @@ Infobox.prototype.template = Infobox.prototype.type;
 Infobox.prototype.images = Infobox.prototype.image;
 module.exports = Infobox;
 
-},{"../_lib/aliases":78,"../image/Image":85,"./toHtml":93,"./toJson":94,"./toLatex":95,"./toMarkdown":96}],92:[function(_dereq_,module,exports){
+},{"../_lib/aliases":78,"../image/Image":85,"./toHtml":94,"./toJson":95,"./toLatex":96,"./toMarkdown":97}],93:[function(_dereq_,module,exports){
 module.exports = {
   image: true,
   caption: true,
@@ -8883,7 +8935,7 @@ module.exports = {
   'signature alt': true,
 };
 
-},{}],93:[function(_dereq_,module,exports){
+},{}],94:[function(_dereq_,module,exports){
 const dontDo = _dereq_('./_skip-keys');
 const setDefaults = _dereq_('../_lib/setDefaults');
 const defaults = {
@@ -8930,7 +8982,7 @@ const infobox = function(obj, options) {
 };
 module.exports = infobox;
 
-},{"../_lib/setDefaults":83,"./_skip-keys":92}],94:[function(_dereq_,module,exports){
+},{"../_lib/setDefaults":83,"./_skip-keys":93}],95:[function(_dereq_,module,exports){
 const encode = _dereq_('../_lib/encode');
 
 //turn an infobox into some nice json
@@ -8950,7 +9002,7 @@ const toJson = function(infobox, options) {
 };
 module.exports = toJson;
 
-},{"../_lib/encode":79}],95:[function(_dereq_,module,exports){
+},{"../_lib/encode":79}],96:[function(_dereq_,module,exports){
 const dontDo = _dereq_('./_skip-keys');
 const setDefaults = _dereq_('../_lib/setDefaults');
 const defaults = {
@@ -8981,7 +9033,7 @@ const infobox = function(obj, options) {
 };
 module.exports = infobox;
 
-},{"../_lib/setDefaults":83,"./_skip-keys":92}],96:[function(_dereq_,module,exports){
+},{"../_lib/setDefaults":83,"./_skip-keys":93}],97:[function(_dereq_,module,exports){
 const dontDo = _dereq_('./_skip-keys');
 const pad = _dereq_('../_lib/pad');
 const setDefaults = _dereq_('../_lib/setDefaults');
@@ -9010,7 +9062,7 @@ const doInfobox = function(obj, options) {
 };
 module.exports = doInfobox;
 
-},{"../_lib/pad":81,"../_lib/setDefaults":83,"./_skip-keys":92}],97:[function(_dereq_,module,exports){
+},{"../_lib/pad":81,"../_lib/setDefaults":83,"./_skip-keys":93}],98:[function(_dereq_,module,exports){
 const strip = _dereq_('./_parsers/_strip');
 const open = '{';
 const close = '}';
@@ -9081,7 +9133,7 @@ module.exports = getTemplates;
 
 // console.log(getTemplates('he is president. {{nowrap|he is {{age|1980}} years}} he lives in {{date}} texas'));
 
-},{"./_parsers/_strip":105}],98:[function(_dereq_,module,exports){
+},{"./_parsers/_strip":106}],99:[function(_dereq_,module,exports){
 //we explicitly ignore these, because they sometimes have resolve some data
 const list = [
   //https://en.wikipedia.org/wiki/category:templates_with_no_visible_output
@@ -9131,7 +9183,7 @@ const ignore = list.reduce((h, str) => {
 }, {});
 module.exports = ignore;
 
-},{}],99:[function(_dereq_,module,exports){
+},{}],100:[function(_dereq_,module,exports){
 const i18n = _dereq_('../_data/i18n');
 const i18nReg = new RegExp('^(subst.)?(' + i18n.infoboxes.join('|') + ')[: \n]', 'i');
 //some looser ones
@@ -9195,7 +9247,7 @@ module.exports = {
   format: fmtInfobox
 };
 
-},{"../_data/i18n":69}],100:[function(_dereq_,module,exports){
+},{"../_data/i18n":69}],101:[function(_dereq_,module,exports){
 
 //turn {{name|one|two|three}} into [name, one, two, three]
 const pipeSplitter = function(tmpl) {
@@ -9227,7 +9279,7 @@ const pipeSplitter = function(tmpl) {
 };
 module.exports = pipeSplitter;
 
-},{}],101:[function(_dereq_,module,exports){
+},{}],102:[function(_dereq_,module,exports){
 // every value in {{tmpl|a|b|c}} needs a name
 // here we come up with names for them
 const hasKey = /^[a-z0-9\u00C0-\u00FF\._\- ]+=/iu;
@@ -9283,7 +9335,7 @@ const keyMaker = function(arr, order) {
 
 module.exports = keyMaker;
 
-},{}],102:[function(_dereq_,module,exports){
+},{}],103:[function(_dereq_,module,exports){
 const whoCares = {
   'classname': true,
   'style': true,
@@ -9315,7 +9367,7 @@ const cleanup = function(obj) {
 };
 module.exports = cleanup;
 
-},{}],103:[function(_dereq_,module,exports){
+},{}],104:[function(_dereq_,module,exports){
 //normalize template names
 const fmtName = function(name) {
   name = (name || '').trim();
@@ -9325,7 +9377,7 @@ const fmtName = function(name) {
 };
 module.exports = fmtName;
 
-},{}],104:[function(_dereq_,module,exports){
+},{}],105:[function(_dereq_,module,exports){
 const fmtName = _dereq_('./_fmtName');
 //get the name of the template
 //templates are usually '{{name|stuff}}'
@@ -9354,7 +9406,7 @@ const getName = function(tmpl) {
 // |key=val}}`));
 module.exports = getName;
 
-},{"./_fmtName":103}],105:[function(_dereq_,module,exports){
+},{"./_fmtName":104}],106:[function(_dereq_,module,exports){
 //remove the top/bottom off the template
 const strip = function(tmpl) {
   tmpl = tmpl.replace(/^\{\{/, '');
@@ -9363,7 +9415,7 @@ const strip = function(tmpl) {
 };
 module.exports = strip;
 
-},{}],106:[function(_dereq_,module,exports){
+},{}],107:[function(_dereq_,module,exports){
 //remove the top/bottom off the template
 const strip = _dereq_('./_strip');
 const fmtName = _dereq_('./_fmtName');
@@ -9422,7 +9474,7 @@ const parser = function(tmpl, order, fmt) {
 };
 module.exports = parser;
 
-},{"../../04-sentence":59,"./01-pipe-splitter":100,"./02-keyMaker":101,"./03-cleanup":102,"./_fmtName":103,"./_strip":105}],107:[function(_dereq_,module,exports){
+},{"../../04-sentence":59,"./01-pipe-splitter":101,"./02-keyMaker":102,"./03-cleanup":103,"./_fmtName":104,"./_strip":106}],108:[function(_dereq_,module,exports){
 //this is allowed to be rough
 const day = 1000 * 60 * 60 * 24;
 const month = day * 30;
@@ -9461,7 +9513,7 @@ const delta = function(from, to) {
 
 module.exports = delta;
 
-},{}],108:[function(_dereq_,module,exports){
+},{}],109:[function(_dereq_,module,exports){
 //assorted parsing methods for date/time templates
 const months = _dereq_('./_months');
 
@@ -9546,7 +9598,7 @@ module.exports = {
 
 // console.log(toText(ymd([2018, 3, 28])));
 
-},{"./_months":109}],109:[function(_dereq_,module,exports){
+},{"./_months":110}],110:[function(_dereq_,module,exports){
 module.exports = [
   undefined, //1-based months.. :/
   'January',
@@ -9563,7 +9615,7 @@ module.exports = [
   'December',
 ];
 
-},{}],110:[function(_dereq_,module,exports){
+},{}],111:[function(_dereq_,module,exports){
 
 //not all too fancy - used in {{timesince}}
 const timeSince = function(str) {
@@ -9589,7 +9641,7 @@ const timeSince = function(str) {
 };
 module.exports = timeSince;
 
-},{}],111:[function(_dereq_,module,exports){
+},{}],112:[function(_dereq_,module,exports){
 const misc = _dereq_('./misc');
 const parsers = _dereq_('./parsers');
 const parse = _dereq_('../_parsers/parse');
@@ -9801,7 +9853,7 @@ dateTmpl.bda = dateTmpl['birth date and age'];
 dateTmpl['birth date based on age at death'] = dateTmpl['birth based on age as of date'];
 module.exports = dateTmpl;
 
-},{"../_parsers/parse":106,"./_format":108,"./_timeSince":110,"./misc":112,"./parsers":113}],112:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107,"./_format":109,"./_timeSince":111,"./misc":113,"./parsers":114}],113:[function(_dereq_,module,exports){
 const format = _dereq_('./_format');
 const months = _dereq_('./_months');
 const parse = _dereq_('../_parsers/parse');
@@ -9842,7 +9894,7 @@ const misc = {
 };
 module.exports = misc;
 
-},{"../_parsers/parse":106,"./_format":108,"./_months":109}],113:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107,"./_format":109,"./_months":110}],114:[function(_dereq_,module,exports){
 const strip = _dereq_('../_parsers/_strip');
 const parse = _dereq_('../_parsers/parse');
 const delta = _dereq_('./_delta');
@@ -10039,7 +10091,7 @@ const parsers = {
 };
 module.exports = parsers;
 
-},{"../_parsers/_strip":105,"../_parsers/parse":106,"./_delta":107,"./_format":108}],114:[function(_dereq_,module,exports){
+},{"../_parsers/_strip":106,"../_parsers/parse":107,"./_delta":108,"./_format":109}],115:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 
 let templates = {
@@ -10218,7 +10270,7 @@ inline.forEach((k) => {
 
 module.exports = templates;
 
-},{"../_parsers/parse":106}],115:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],116:[function(_dereq_,module,exports){
 module.exports = Object.assign({},
   _dereq_('./format'),
   _dereq_('./lists'),
@@ -10226,7 +10278,7 @@ module.exports = Object.assign({},
   _dereq_('./misc')
 );
 
-},{"./format":114,"./lists":116,"./misc":117,"./punctuation":118}],116:[function(_dereq_,module,exports){
+},{"./format":115,"./lists":117,"./misc":118,"./punctuation":119}],117:[function(_dereq_,module,exports){
 const strip = _dereq_('../_parsers/_strip');
 const parse = _dereq_('../_parsers/parse');
 
@@ -10338,7 +10390,7 @@ tmpls['col-list'] = tmpls['columns-list'];
 tmpls.columnslist = tmpls['columns-list'];
 module.exports = tmpls;
 
-},{"../_parsers/_strip":105,"../_parsers/parse":106}],117:[function(_dereq_,module,exports){
+},{"../_parsers/_strip":106,"../_parsers/parse":107}],118:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 
 const inline = {
@@ -10561,7 +10613,7 @@ inline['define'] = inline.abbr;
 
 module.exports = inline;
 
-},{"../_parsers/parse":106}],118:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],119:[function(_dereq_,module,exports){
 // okay, these just hurts my feelings
 // https://www.mediawiki.org/wiki/Help:Magic_words#Other
 let punctuation = [
@@ -10615,7 +10667,7 @@ punctuation.forEach((a) => {
 });
 module.exports = templates;
 
-},{}],119:[function(_dereq_,module,exports){
+},{}],120:[function(_dereq_,module,exports){
 const convertDMS = _dereq_('./dms-format');
 const parse = _dereq_('../_parsers/parse');
 
@@ -10715,7 +10767,7 @@ module.exports = parseCoor;
 // {{coord|dd|mm|N/S|dd|mm|E/W|coordinate parameters|template parameters}}
 // {{coord|dd|mm|ss|N/S|dd|mm|ss|E/W|coordinate parameters|template parameters}}
 
-},{"../_parsers/parse":106,"./dms-format":120}],120:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107,"./dms-format":121}],121:[function(_dereq_,module,exports){
 //converts DMS (decimal-minute-second) geo format to lat/lng format.
 //major thank you to https://github.com/gmaclennan/parse-dms
 //and https://github.com/WSDOT-GIS/dms-js 👏
@@ -10741,7 +10793,7 @@ module.exports = parseDms;
 // console.log(parseDms([57, 18, 22, 'N']));
 // console.log(parseDms([4, 27, 32, 'W']));
 
-},{}],121:[function(_dereq_,module,exports){
+},{}],122:[function(_dereq_,module,exports){
 const parseCoor = _dereq_('./coor');
 
 const templates = {
@@ -10768,7 +10820,7 @@ templates['coor dm'] = templates.coord;
 templates['coor dec'] = templates.coord;
 module.exports = templates;
 
-},{"./coor":119}],122:[function(_dereq_,module,exports){
+},{"./coor":120}],123:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 
 //this format seems to be a pattern for these
@@ -10850,7 +10902,7 @@ externals.imdb = externals['imdb name'];
 externals['imdb episodess'] = externals['imdb episode'];
 module.exports = externals;
 
-},{"../_parsers/parse":106}],123:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],124:[function(_dereq_,module,exports){
 const Infobox = _dereq_('../infobox/Infobox');
 const Reference = _dereq_('../02-section/reference/Reference');
 const getTemplates = _dereq_('./_getTemplates');
@@ -10909,14 +10961,14 @@ const parseTemplates = function(wiki, data, options) {
 
 module.exports = parseTemplates;
 
-},{"../02-section/reference/Reference":19,"../infobox/Infobox":91,"./_getTemplates":97,"./parse":131}],124:[function(_dereq_,module,exports){
+},{"../02-section/reference/Reference":19,"../infobox/Infobox":92,"./_getTemplates":98,"./parse":132}],125:[function(_dereq_,module,exports){
 module.exports = Object.assign({},
   _dereq_('./languages'),
   _dereq_('./pronounce'),
   _dereq_('./wiktionary')
 );
 
-},{"./languages":125,"./pronounce":126,"./wiktionary":127}],125:[function(_dereq_,module,exports){
+},{"./languages":126,"./pronounce":127,"./wiktionary":128}],126:[function(_dereq_,module,exports){
 const languages = _dereq_('../../_data/languages');
 const parse = _dereq_('../_parsers/parse');
 
@@ -10964,7 +11016,7 @@ templates['nihongo-s'] = templates.nihongo;
 templates['nihongo foot'] = templates.nihongo;
 module.exports = templates;
 
-},{"../../_data/languages":70,"../_parsers/parse":106}],126:[function(_dereq_,module,exports){
+},{"../../_data/languages":70,"../_parsers/parse":107}],127:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 const languages = _dereq_('../../_data/languages');
 
@@ -11011,7 +11063,7 @@ Object.keys(languages).forEach((lang) => {
 
 module.exports = templates;
 
-},{"../../_data/languages":70,"../_parsers/parse":106}],127:[function(_dereq_,module,exports){
+},{"../../_data/languages":70,"../_parsers/parse":107}],128:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 // const strip = require('./_parsers/_strip');
 
@@ -11226,7 +11278,7 @@ conjugations.forEach((name) => {
 });
 module.exports = templates;
 
-},{"../_parsers/parse":106}],128:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],129:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 // const parseSentence = require('../../04-sentence').oneSentence;
 
@@ -11357,7 +11409,7 @@ templates['winperc'] = templates['winning percentage'];
 
 module.exports = templates;
 
-},{"../_parsers/parse":106}],129:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],130:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 
 const misc = {
@@ -11431,7 +11483,7 @@ const misc = {
 };
 module.exports = misc;
 
-},{"../_parsers/parse":106}],130:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],131:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 
 const codes = {
@@ -11481,7 +11533,7 @@ Object.keys(codes).forEach((k) => {
 
 module.exports = currencies;
 
-},{"../_parsers/parse":106}],131:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],132:[function(_dereq_,module,exports){
 const ignore = _dereq_('./_ignore');
 const getName = _dereq_('./_parsers/_getName');
 const parse = _dereq_('./_parsers/parse');
@@ -11543,7 +11595,7 @@ const parseTemplate = function(tmpl, wiki, data) {
 };
 module.exports = parseTemplate;
 
-},{"./_ignore":98,"./_infobox":99,"./_parsers/_getName":104,"./_parsers/parse":106,"./dates":111,"./formatting":115,"./geo":121,"./identities":122,"./language":124,"./math":128,"./misc":129,"./money":130,"./politics":134,"./science":136,"./sports":139,"./wikipedia":141}],132:[function(_dereq_,module,exports){
+},{"./_ignore":99,"./_infobox":100,"./_parsers/_getName":105,"./_parsers/parse":107,"./dates":112,"./formatting":116,"./geo":122,"./identities":123,"./language":125,"./math":129,"./misc":130,"./money":131,"./politics":135,"./science":137,"./sports":140,"./wikipedia":142}],133:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 
 let templates = {
@@ -11589,7 +11641,7 @@ templates['election box inline candidate with party link no change'] = templates
 templates['election box inline incumbent'] = templates['election box candidate'];
 module.exports = templates;
 
-},{"../_parsers/parse":106}],133:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],134:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 const flags = _dereq_('../../_data/flags');
 
@@ -11674,14 +11726,14 @@ flags.forEach((a) => {
 
 module.exports = templates;
 
-},{"../../_data/flags":68,"../_parsers/parse":106}],134:[function(_dereq_,module,exports){
+},{"../../_data/flags":68,"../_parsers/parse":107}],135:[function(_dereq_,module,exports){
 module.exports = Object.assign({},
   _dereq_('./elections'),
   _dereq_('./flags'),
   _dereq_('./population')
 );
 
-},{"./elections":132,"./flags":133,"./population":135}],135:[function(_dereq_,module,exports){
+},{"./elections":133,"./flags":134,"./population":136}],136:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 
 let templates = {
@@ -11704,13 +11756,13 @@ let templates = {
 };
 module.exports = templates;
 
-},{"../_parsers/parse":106}],136:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],137:[function(_dereq_,module,exports){
 module.exports = Object.assign({},
   _dereq_('./weather'),
   _dereq_('./misc')
 );
 
-},{"./misc":137,"./weather":138}],137:[function(_dereq_,module,exports){
+},{"./misc":138,"./weather":139}],138:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 
 let templates = {
@@ -11758,7 +11810,7 @@ let templates = {
 };
 module.exports = templates;
 
-},{"../_parsers/parse":106}],138:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],139:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 const hasMonth = /^jan /i;
 const isYear = /^year /i;
@@ -11893,7 +11945,7 @@ let templates = {
 
 module.exports = templates;
 
-},{"../_parsers/parse":106}],139:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],140:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 
 const misc = {
@@ -11914,7 +11966,7 @@ module.exports = Object.assign({},
   _dereq_('./soccer')
 );
 
-},{"../_parsers/parse":106,"./soccer":140}],140:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107,"./soccer":141}],141:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 const flags = _dereq_('../../_data/flags');
 
@@ -12016,14 +12068,14 @@ let sports = {
 };
 module.exports = sports;
 
-},{"../../_data/flags":68,"../_parsers/parse":106}],141:[function(_dereq_,module,exports){
+},{"../../_data/flags":68,"../_parsers/parse":107}],142:[function(_dereq_,module,exports){
 module.exports = Object.assign({},
   _dereq_('./links'),
   _dereq_('./page'),
   _dereq_('./table-cell')
 );
 
-},{"./links":142,"./page":143,"./table-cell":144}],142:[function(_dereq_,module,exports){
+},{"./links":143,"./page":144,"./table-cell":145}],143:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 
 let templates = {
@@ -12116,7 +12168,7 @@ templates.ll = templates.link;
 templates['l-self'] = templates.link;
 module.exports = templates;
 
-},{"../_parsers/parse":106}],143:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],144:[function(_dereq_,module,exports){
 const parse = _dereq_('../_parsers/parse');
 const Image = _dereq_('../../image/Image');
 
@@ -12324,7 +12376,7 @@ parsers['main article'] = parsers['main'];
 
 module.exports = parsers;
 
-},{"../../image/Image":85,"../_parsers/parse":106}],144:[function(_dereq_,module,exports){
+},{"../../image/Image":85,"../_parsers/parse":107}],145:[function(_dereq_,module,exports){
 //random misc for inline wikipedia templates
 const parse = _dereq_('../_parsers/parse');
 
@@ -12443,7 +12495,7 @@ templates.won = (tmpl) => {
 
 module.exports = templates;
 
-},{"../_parsers/parse":106}],145:[function(_dereq_,module,exports){
+},{"../_parsers/parse":107}],146:[function(_dereq_,module,exports){
 "use strict";
 
 var wtf = _dereq_('wtf_wikipedia');
@@ -12494,7 +12546,7 @@ var wtfMLB = {
 };
 module.exports = wtfMLB;
 
-},{"../_version":1,"./parse":146,"./teams":148,"wtf_wikipedia":90}],146:[function(_dereq_,module,exports){
+},{"../_version":1,"./parse":147,"./teams":150,"wtf_wikipedia":91}],147:[function(_dereq_,module,exports){
 "use strict";
 
 var parseGames = _dereq_('./parseGames');
@@ -12561,8 +12613,10 @@ var parse = function parse(doc) {
 
 module.exports = parse;
 
-},{"./parseGames":147}],147:[function(_dereq_,module,exports){
+},{"./parseGames":148}],148:[function(_dereq_,module,exports){
 "use strict";
+
+var addWinner = _dereq_('./win-loss');
 
 var dashSplit = /(–|-|−|&ndash;)/;
 
@@ -12590,23 +12644,39 @@ var parseScore = function parseScore() {
   };
 };
 
+var isFuture = function isFuture(games) {
+  games.forEach(function (g) {
+    if (!g.attendance && !g.points) {
+      if (!g.record.wins && !g.record.lossess && !g.record.ties) {
+        g.inFuture = true;
+        g.win = null;
+      }
+    }
+  });
+  return games;
+};
+
 var parseGame = function parseGame(row) {
   var attendance = row.attendance || '';
   attendance = Number(attendance.replace(/,/, '')) || null;
   var res = {
     game: Number(row['#'] || row.Game),
     date: row.date || row.Date,
-    home: row.home || row.Home,
-    visitor: row.visitor || row.Visitor,
     opponent: row.Opponent,
-    location: row.Location,
-    score: parseScore(row.score || row.Score),
+    result: parseScore(row.score || row.Score),
     overtime: (row.ot || row.OT || '').toLowerCase() === 'ot',
     // goalie: row.decision,
     record: parseRecord(row.record || row.Record),
     attendance: attendance,
     points: Number(row.pts || row.points || row.Pts || row.Points) || 0
   };
+
+  if (!res.opponent) {
+    res.location = row.Location;
+    res.home = row.home || row.Home;
+    res.visitor = row.visitor || row.Visitor;
+  }
+
   return res;
 }; //
 
@@ -12638,15 +12708,54 @@ var parseGames = function parseGames(doc) {
   games = games.filter(function (g) {
     return g && g.date;
   });
+  games = addWinner(games);
+  games = isFuture(games);
   return games;
 };
 
 module.exports = parseGames;
 
-},{}],148:[function(_dereq_,module,exports){
+},{"./win-loss":149}],149:[function(_dereq_,module,exports){
+"use strict";
+
+//amazingly, it's not clear who won the game, without the css styling.
+//try to pull-it out based on the team's record
+var addWinner = function addWinner(games) {
+  var wins = 0;
+  games.forEach(function (g) {
+    if (g.record.wins > wins) {
+      g.win = true;
+      wins = g.record.wins;
+    } else if (g.record.wins === wins) {
+      g.win = null;
+    } else {
+      g.win = false;
+    } //improve the result format, now that we know who won..
+
+
+    var res = g.result;
+
+    if (g.win) {
+      g.result = {
+        us: res.win,
+        them: res.loss
+      };
+    } else {
+      g.result = {
+        us: res.loss,
+        them: res.win
+      };
+    }
+  });
+  return games;
+};
+
+module.exports = addWinner;
+
+},{}],150:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = ['Boston Bruins', 'Buffalo Sabres', 'Detroit Red Wings', 'Florida Panthers', 'Montreal Canadiens', 'Ottawa Senators', 'Tampa Bay Lightning', 'Toronto Maple Leafs', 'Carolina Hurricanes', 'Columbus Blue Jackets', 'New Jersey Devils', 'New York Islanders', 'New York Rangers', 'Philadelphia Flyers', 'Pittsburgh Penguins', 'Washington Capitals', 'Chicago Blackhawks', 'Colorado Avalanche', 'Dallas Stars', 'Minnesota Wild', 'Nashville Predators', 'St. Louis Blues', 'Winnipeg Jets', 'Anaheim Ducks', 'Arizona Coyotes', 'Calgary Flames', 'Edmonton Oilers', 'Los Angeles Kings', 'San Jose Sharks', 'Vancouver Canucks', 'Vegas Golden Knights'];
 
-},{}]},{},[145])(145)
+},{}]},{},[146])(146)
 });

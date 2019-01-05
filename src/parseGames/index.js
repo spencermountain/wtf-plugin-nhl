@@ -1,3 +1,4 @@
+const addWinner = require('./win-loss')
 const dashSplit = /(–|-|−|&ndash;)/
 
 const parseRecord = function(record = '') {
@@ -8,6 +9,7 @@ const parseRecord = function(record = '') {
     ties: Number(arr[4]) || 0
   }
 }
+
 const parseScore = function(score = '') {
   let arr = score.split(dashSplit)
   if (!arr[0] && !arr[2]) {
@@ -19,6 +21,17 @@ const parseScore = function(score = '') {
   }
 }
 
+const isFuture = function(games) {
+  games.forEach((g) => {
+    if (!g.attendance && !g.points) {
+      if (!g.record.wins && !g.record.lossess && !g.record.ties) {
+        g.inFuture = true
+        g.win = null
+      }
+    }
+  })
+  return games
+}
 
 const parseGame = function(row) {
   let attendance = row.attendance || ''
@@ -26,16 +39,18 @@ const parseGame = function(row) {
   let res = {
     game: Number(row['#'] || row.Game),
     date: row.date || row.Date,
-    home: row.home || row.Home,
-    visitor: row.visitor || row.Visitor,
     opponent: row.Opponent,
-    location: row.Location,
-    score: parseScore(row.score || row.Score),
+    result: parseScore(row.score || row.Score),
     overtime: (row.ot || row.OT || '').toLowerCase() === 'ot',
     // goalie: row.decision,
     record: parseRecord(row.record || row.Record),
     attendance: attendance,
     points: Number(row.pts || row.points || row.Pts || row.Points) || 0
+  }
+  if (!res.opponent) {
+    res.location = row.Location
+    res.home = row.home || row.Home
+    res.visitor = row.visitor || row.Visitor
   }
   return res
 }
@@ -62,6 +77,8 @@ const parseGames = function(doc) {
     })
   })
   games = games.filter((g) => g && g.date)
+  games = addWinner(games)
+  games = isFuture(games)
   return games
 }
 module.exports = parseGames
