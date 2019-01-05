@@ -3,11 +3,13 @@ const dashSplit = /(–|-|−|&ndash;)/
 
 const parseRecord = function(record = '') {
   let arr = record.split(dashSplit)
-  return {
+  let result = {
     wins: Number(arr[0]) || 0,
     losses: Number(arr[2]) || 0,
     ties: Number(arr[4]) || 0
   }
+  result.games = result.wins + result.losses + result.ties
+  return result
 }
 
 const parseScore = function(score = '') {
@@ -33,12 +35,27 @@ const isFuture = function(games) {
   return games
 }
 
-const parseGame = function(row) {
+const parseDate = function(row, title) {
+  let year = title.year
+  let date = row.date || row.Date
+  if (!date) {
+    return ''
+  }
+  //the next year, add one to the year
+  if (/^(jan|feb|mar|apr)/i.test(date)) {
+    date += ' ' + (year + 1)
+  } else {
+    date += ' ' + year
+  }
+  return date
+}
+
+const parseGame = function(row, title) {
   let attendance = row.attendance || ''
   attendance = Number(attendance.replace(/,/, '')) || null
   let res = {
     game: Number(row['#'] || row.Game),
-    date: row.date || row.Date,
+    date: parseDate(row, title),
     opponent: row.Opponent,
     result: parseScore(row.score || row.Score),
     overtime: (row.ot || row.OT || '').toLowerCase() === 'ot',
@@ -56,7 +73,7 @@ const parseGame = function(row) {
 }
 
 //
-const parseGames = function(doc) {
+const parseGames = function(doc, title) {
   let games = []
   let s = doc.sections('regular season') || doc.sections('schedule and results')
   if (!s) {
@@ -73,7 +90,7 @@ const parseGames = function(doc) {
   tables.forEach((table) => {
     let rows = table.keyValue()
     rows.forEach(row => {
-      games.push(parseGame(row))
+      games.push(parseGame(row, title))
     })
   })
   games = games.filter((g) => g && g.date)

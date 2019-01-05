@@ -12605,9 +12605,9 @@ var parseRoster = function parseRoster(doc) {
 var parse = function parse(doc) {
   var res = {
     title: parseTitle(doc.title()),
-    roster: parseRoster(doc),
-    games: parseGames(doc)
+    roster: parseRoster(doc)
   };
+  res.games = parseGames(doc, res.title);
   return res;
 };
 
@@ -12623,11 +12623,13 @@ var dashSplit = /(–|-|−|&ndash;)/;
 var parseRecord = function parseRecord() {
   var record = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   var arr = record.split(dashSplit);
-  return {
+  var result = {
     wins: Number(arr[0]) || 0,
     losses: Number(arr[2]) || 0,
     ties: Number(arr[4]) || 0
   };
+  result.games = result.wins + result.losses + result.ties;
+  return result;
 };
 
 var parseScore = function parseScore() {
@@ -12656,12 +12658,30 @@ var isFuture = function isFuture(games) {
   return games;
 };
 
-var parseGame = function parseGame(row) {
+var parseDate = function parseDate(row, title) {
+  var year = title.year;
+  var date = row.date || row.Date;
+
+  if (!date) {
+    return '';
+  } //the next year, add one to the year
+
+
+  if (/^(jan|feb|mar|apr)/i.test(date)) {
+    date += ' ' + (year + 1);
+  } else {
+    date += ' ' + year;
+  }
+
+  return date;
+};
+
+var parseGame = function parseGame(row, title) {
   var attendance = row.attendance || '';
   attendance = Number(attendance.replace(/,/, '')) || null;
   var res = {
     game: Number(row['#'] || row.Game),
-    date: row.date || row.Date,
+    date: parseDate(row, title),
     opponent: row.Opponent,
     result: parseScore(row.score || row.Score),
     overtime: (row.ot || row.OT || '').toLowerCase() === 'ot',
@@ -12681,7 +12701,7 @@ var parseGame = function parseGame(row) {
 }; //
 
 
-var parseGames = function parseGames(doc) {
+var parseGames = function parseGames(doc, title) {
   var games = [];
   var s = doc.sections('regular season') || doc.sections('schedule and results');
 
@@ -12702,7 +12722,7 @@ var parseGames = function parseGames(doc) {
   tables.forEach(function (table) {
     var rows = table.keyValue();
     rows.forEach(function (row) {
-      games.push(parseGame(row));
+      games.push(parseGame(row, title));
     });
   });
   games = games.filter(function (g) {

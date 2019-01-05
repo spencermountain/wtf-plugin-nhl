@@ -48,8 +48,8 @@ const parse = function(doc) {
   let res = {
     title: parseTitle(doc.title()),
     roster: parseRoster(doc),
-    games: parseGames(doc)
   }
+  res.games = parseGames(doc, res.title)
   return res
 }
 module.exports = parse
