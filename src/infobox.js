@@ -26,7 +26,6 @@ const parseInfobox = function(doc) {
   if (data.record) {
     data.record = parseRecord(data.record)
   }
-  // console.log(info)
   return data
 }
 module.exports = parseInfobox

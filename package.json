@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/spencermountain/wtf-nhl#readme",
   "dependencies": {
-    "wtf_wikipedia": "7.2.7"
+    "wtf_wikipedia": "7.2.8"
   },
   "devDependencies": {
     "@babel/core": "7.2.2",
@@ -30,7 +30,7 @@
     "browserify": "16.2.3",
     "derequire": "2.0.6",
     "shelljs": "0.8.3",
-    "spacetime": "5.1.0",
+    "spacetime": "5.2.1",
     "tap-dancer": "0.1.2",
     "tape": "4.9.2",
     "terser": "3.14.1"
