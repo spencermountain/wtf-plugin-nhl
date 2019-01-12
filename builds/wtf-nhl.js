@@ -1,4 +1,4 @@
-/* wtf-nhl v0.0.3
+/* wtf-nhl v0.0.4
    github.com/spencermountain/wtf-nhl
    MIT
 */
@@ -6,7 +6,7 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.wtfNHL = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(_dereq_,module,exports){
 "use strict";
 
-module.exports = '0.0.3';
+module.exports = '0.0.4';
 
 },{}],2:[function(_dereq_,module,exports){
 var __root__ = (function (root) {
@@ -494,28 +494,28 @@ module.exports.default = fetch;
 
 },{}],3:[function(_dereq_,module,exports){
 module.exports={
-  "_from": "wtf_wikipedia@7.2.7",
-  "_id": "wtf_wikipedia@7.2.7",
+  "_from": "wtf_wikipedia@7.2.8",
+  "_id": "wtf_wikipedia@7.2.8",
   "_inBundle": false,
-  "_integrity": "sha512-qdkZ6Ojy2Mo34fPpx5oEsFb/aTGUEQk9tADesnDY43E0gnCI3ZP+yVWu4xc91MGpnmNNZO+XEKkF6R2ASB5PQg==",
+  "_integrity": "sha512-EwkRrSFAH9vlqxqRDUrGprUykjkw3P80ZrJ4+5vOlwvpcIDsRg0QCfsfsxhMGPv8cWmdemrclhTVOzwpO73v0Q==",
   "_location": "/wtf_wikipedia",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "wtf_wikipedia@7.2.7",
+    "raw": "wtf_wikipedia@7.2.8",
     "name": "wtf_wikipedia",
     "escapedName": "wtf_wikipedia",
-    "rawSpec": "7.2.7",
+    "rawSpec": "7.2.8",
     "saveSpec": null,
-    "fetchSpec": "7.2.7"
+    "fetchSpec": "7.2.8"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/wtf_wikipedia/-/wtf_wikipedia-7.2.7.tgz",
-  "_shasum": "d51209e4b28bd4db84ad1dfab6afd1e38810af4a",
-  "_spec": "wtf_wikipedia@7.2.7",
+  "_resolved": "https://registry.npmjs.org/wtf_wikipedia/-/wtf_wikipedia-7.2.8.tgz",
+  "_shasum": "ce59d89993ba65b0a0bcb22ddd099da96f6d5442",
+  "_spec": "wtf_wikipedia@7.2.8",
   "_where": "/Users/spencer/mountain/nhl-wtf",
   "author": {
     "name": "Spencer Kelly",
@@ -584,7 +584,7 @@ module.exports={
     "watch": "amble ./scratch.js"
   },
   "unpkg": "builds/wtf_wikipedia.min.js",
-  "version": "7.2.7"
+  "version": "7.2.8"
 }
 
 },{}],4:[function(_dereq_,module,exports){
@@ -9189,9 +9189,11 @@ const i18nReg = new RegExp('^(subst.)?(' + i18n.infoboxes.join('|') + ')[: \n]',
 //some looser ones
 const startReg = /^infobox /i;
 const endReg = / infobox$/i;
+const yearIn = /$Year in [A-Z]/i;
 
 //some known ones from
 // https://en.wikipedia.org/wiki/Wikipedia:List_of_infoboxes
+// and https://en.wikipedia.org/wiki/Category:Infobox_templates
 const known = {
   'gnf protein box': true,
   'automatic taxobox': true,
@@ -9207,7 +9209,26 @@ const known = {
   'speciesbox': true,
   'subspeciesbox': true,
   'starbox short': true,
-  'taxobox': true
+  'taxobox': true,
+  'nhlteamseason': true,
+  'asian games bid': true,
+  'canadian federal election results': true,
+  'dc thomson comic strip': true,
+  'daytona 24 races': true,
+  'edencharacter': true,
+  'moldova national football team results': true,
+  'samurai': true,
+  'protein': true,
+  'sheet authority': true,
+  'order-of-approx': true,
+  'bacterial labs': true,
+  'medical resources': true,
+  'ordination': true,
+  'hockey team coach': true,
+  'hockey team gm': true,
+  'hockey team player': true,
+  'hockey team start': true,
+  'mlbbioret': true,
 };
 //
 const isInfobox = function(name) {
@@ -9219,6 +9240,10 @@ const isInfobox = function(name) {
     return true;
   }
   if (startReg.test(name) || endReg.test(name)) {
+    return true;
+  }
+  //these are also infoboxes: 'Year in Belarus'
+  if (yearIn.test(name)) {
     return true;
   }
   return false;
@@ -11740,6 +11765,7 @@ let templates = {
   //https://en.wikipedia.org/wiki/Template:Historical_populations
   'historical populations': (tmpl, r) => {
     let data = parse(tmpl);
+    data.list = data.list || [];
     let years = [];
     for(let i = 0; i < data.list.length; i += 2) {
       let num = data.list[i + 1];
@@ -12504,7 +12530,16 @@ var teams = _dereq_('./teams');
 
 var _parse = _dereq_('./parse');
 
-var version = _dereq_('../_version'); //who cares.
+var version = _dereq_('../_version');
+
+var makePage = function makePage(team, year) {
+  team = team.replace(/ /g, '_');
+  year = year || new Date().getFullYear();
+  var nextYear = Number(String(year).substr(2, 4)) + 1;
+  var page = "".concat(year, "\u2013").concat(nextYear, "_").concat(team, "_season"); //2018–19_Toronto_Maple_Leafs_season
+
+  return page;
+}; //who cares.
 
 
 var wtfMLB = {
@@ -12513,11 +12548,7 @@ var wtfMLB = {
     team = teams.find(function (t) {
       return t === team || t.toLowerCase().includes(team.toLowerCase());
     }) || team;
-    team = team.replace(/ /g, '_');
-    year = year || new Date().getFullYear();
-    var nextYear = Number(String(year).substr(2, 4)) + 1;
-    var page = "".concat(year, "\u2013").concat(nextYear, "_").concat(team, "_season"); //2018–19_Toronto_Maple_Leafs_season
-
+    var page = makePage(team, year);
     return wtf.fetch(page).catch(console.log).then(_parse);
   },
   history: function history(team, from, to) {
@@ -12525,11 +12556,10 @@ var wtfMLB = {
     team = teams.find(function (t) {
       return t === team || t.toLowerCase().includes(team.toLowerCase());
     }) || team;
-    team = team.replace(/ /g, '_');
     var pages = [];
 
     for (var i = from; i <= to; i += 1) {
-      pages.push("".concat(i, "_").concat(team, "_season"));
+      pages.push(makePage(team, i));
     }
 
     return wtf.fetch(pages).catch(console.log).then(function (docs) {
@@ -12546,10 +12576,57 @@ var wtfMLB = {
 };
 module.exports = wtfMLB;
 
-},{"../_version":1,"./parse":147,"./teams":150,"wtf_wikipedia":91}],147:[function(_dereq_,module,exports){
+},{"../_version":1,"./parse":148,"./teams":152,"wtf_wikipedia":91}],147:[function(_dereq_,module,exports){
+"use strict";
+
+var parseRecord = _dereq_('./parseGames/_record');
+
+var ordinal = /([0-9])(st|nd|rd|th)$/i;
+
+var toCardinal = function toCardinal() {
+  var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  str = str.trim();
+
+  if (ordinal.test(str)) {
+    str = str.replace(ordinal, '$1');
+    return Number(str);
+  }
+
+  if (/^[0-9]+$/.test(str)) {
+    return Number(str);
+  }
+
+  return str;
+}; //
+
+
+var parseInfobox = function parseInfobox(doc) {
+  var info = doc.infobox('ice hockey team season')[0] || doc.infobox('NHLTeamSeason')[0];
+
+  if (!info) {
+    return {};
+  }
+
+  var data = info.keyValue();
+  Object.keys(data).forEach(function (k) {
+    data[k] = toCardinal(data[k]);
+  });
+
+  if (data.record) {
+    data.record = parseRecord(data.record);
+  }
+
+  return data;
+};
+
+module.exports = parseInfobox;
+
+},{"./parseGames/_record":149}],148:[function(_dereq_,module,exports){
 "use strict";
 
 var parseGames = _dereq_('./parseGames');
+
+var parseInfobox = _dereq_('./infobox');
 
 var parseTitle = function parseTitle() {
   var season = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
@@ -12605,7 +12682,8 @@ var parseRoster = function parseRoster(doc) {
 var parse = function parse(doc) {
   var res = {
     title: parseTitle(doc.title()),
-    roster: parseRoster(doc)
+    roster: parseRoster(doc),
+    season: parseInfobox(doc)
   };
   res.games = parseGames(doc, res.title);
   return res;
@@ -12613,10 +12691,8 @@ var parse = function parse(doc) {
 
 module.exports = parse;
 
-},{"./parseGames":148}],148:[function(_dereq_,module,exports){
+},{"./infobox":147,"./parseGames":150}],149:[function(_dereq_,module,exports){
 "use strict";
-
-var addWinner = _dereq_('./win-loss');
 
 var dashSplit = /(–|-|−|&ndash;)/;
 
@@ -12631,6 +12707,17 @@ var parseRecord = function parseRecord() {
   result.games = result.wins + result.losses + result.ties;
   return result;
 };
+
+module.exports = parseRecord;
+
+},{}],150:[function(_dereq_,module,exports){
+"use strict";
+
+var addWinner = _dereq_('./win-loss');
+
+var dashSplit = /(–|-|−|&ndash;)/;
+
+var parseRecord = _dereq_('./_record');
 
 var parseScore = function parseScore() {
   var score = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
@@ -12735,7 +12822,7 @@ var parseGames = function parseGames(doc, title) {
 
 module.exports = parseGames;
 
-},{"./win-loss":149}],149:[function(_dereq_,module,exports){
+},{"./_record":149,"./win-loss":151}],151:[function(_dereq_,module,exports){
 "use strict";
 
 //amazingly, it's not clear who won the game, without the css styling.
@@ -12772,7 +12859,7 @@ var addWinner = function addWinner(games) {
 
 module.exports = addWinner;
 
-},{}],150:[function(_dereq_,module,exports){
+},{}],152:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = ['Boston Bruins', 'Buffalo Sabres', 'Detroit Red Wings', 'Florida Panthers', 'Montreal Canadiens', 'Ottawa Senators', 'Tampa Bay Lightning', 'Toronto Maple Leafs', 'Carolina Hurricanes', 'Columbus Blue Jackets', 'New Jersey Devils', 'New York Islanders', 'New York Rangers', 'Philadelphia Flyers', 'Pittsburgh Penguins', 'Washington Capitals', 'Chicago Blackhawks', 'Colorado Avalanche', 'Dallas Stars', 'Minnesota Wild', 'Nashville Predators', 'St. Louis Blues', 'Winnipeg Jets', 'Anaheim Ducks', 'Arizona Coyotes', 'Calgary Flames', 'Edmonton Oilers', 'Los Angeles Kings', 'San Jose Sharks', 'Vancouver Canucks', 'Vegas Golden Knights'];

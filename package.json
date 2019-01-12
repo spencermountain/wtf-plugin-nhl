@@ -1,6 +1,6 @@
 {
   "name": "wtf-nhl",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "parse NHL hockey game data from wikipedia",
   "main": "src/index.js",
   "unpkg": "builds/wtf-nhl.min.js",
