@@ -1,4 +1,5 @@
 const parseGames = require('./parseGames')
+const parseInfobox = require('./infobox')
 
 const parseTitle = function(season = '') {
   let num = season.match(/[0-9]+/) || []
@@ -48,6 +49,7 @@ const parse = function(doc) {
   let res = {
     title: parseTitle(doc.title()),
     roster: parseRoster(doc),
+    season: parseInfobox(doc)
   }
   res.games = parseGames(doc, res.title)
   return res
