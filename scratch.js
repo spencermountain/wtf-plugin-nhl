@@ -1,10 +1,13 @@
-const wtfNHL = require('./src')
-// const wtf = require('wtf_wikipedia')
-
-wtfNHL.fetch('Toronto Maple leafs', 2017).catch(console.log).then((obj => {
-  console.log(obj.title.season, obj.season)
-// console.log(JSON.stringify(obj.roster, null, 2))
-}))
+// const wtfNHL = require('./src')
+const wtf = require('wtf_wikipedia')
+wtf.extend(require('./src'))
+wtf
+  .getSeason('Toronto Maple leafs', 2017)
+  .catch(console.log)
+  .then((obj) => {
+    // console.log(Object.keys(obj))
+    console.log(JSON.stringify(obj.games, null, 2))
+  })
 
 // wtfNHL.history('Toronto Maple Leafs', 1964, 2018).catch(console.log).then((docs => {
 //   let years = []
