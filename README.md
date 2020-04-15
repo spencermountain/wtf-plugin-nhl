@@ -70,6 +70,6 @@ wtf.getSeason('Toronto Blue Jays', 2018).then((data) => {
 
 ### See also:
 
-- [wtf-nhl](https://github.com/spencermountain/wtf-nhl)
+- [wtf-mlb](https://github.com/spencermountain/wtf-mlb)
 
 MIT
