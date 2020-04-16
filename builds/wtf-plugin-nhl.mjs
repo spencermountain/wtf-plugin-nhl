@@ -1,4 +1,4 @@
-/* wtf-plugin-nhl 2.0.0  MIT */
+/* wtf-plugin-nhl 2.1.0  MIT */
 var teams = ['Boston Bruins', 'Buffalo Sabres', 'Detroit Red Wings', 'Florida Panthers', 'Montreal Canadiens', 'Ottawa Senators', 'Tampa Bay Lightning', 'Toronto Maple Leafs', 'Carolina Hurricanes', 'Columbus Blue Jackets', 'New Jersey Devils', 'New York Islanders', 'New York Rangers', 'Philadelphia Flyers', 'Pittsburgh Penguins', 'Washington Capitals', 'Chicago Blackhawks', 'Colorado Avalanche', 'Dallas Stars', 'Minnesota Wild', 'Nashville Predators', 'St. Louis Blues', 'Winnipeg Jets', 'Anaheim Ducks', 'Arizona Coyotes', 'Calgary Flames', 'Edmonton Oilers', 'Los Angeles Kings', 'San Jose Sharks', 'Vancouver Canucks', 'Vegas Golden Knights'];
 
 //amazingly, it's not clear who won the game, without the css styling.
@@ -97,12 +97,12 @@ var parseDate = function parseDate(row, title) {
   return date;
 };
 
-var parseGame = function parseGame(row, title) {
-  var attendance = row.attendance || '';
+var parseGame = function parseGame(row, meta) {
+  var attendance = row.attendance || row.Attendance || '';
   attendance = Number(attendance.replace(/,/, '')) || null;
   var res = {
     game: Number(row['#'] || row.Game),
-    date: parseDate(row, title),
+    date: parseDate(row, meta),
     opponent: row.Opponent,
     result: parseScore(row.score || row.Score),
     overtime: (row.ot || row.OT || '').toLowerCase() === 'ot',
@@ -111,18 +111,22 @@ var parseGame = function parseGame(row, title) {
     attendance: attendance,
     points: Number(row.pts || row.points || row.Pts || row.Points) || 0
   };
+  res.location = row.Location;
+  res.home = row.home || row.Home;
+  res.visitor = row.visitor || row.Visitor;
 
   if (!res.opponent) {
-    res.location = row.Location;
-    res.home = row.home || row.Home;
-    res.visitor = row.visitor || row.Visitor;
+    res.opponent = meta.team.includes(res.home) ? res.visitors : res.home;
   }
 
+  res.opponent = res.opponent || '';
+  res.opponent = res.opponent.replace(/\@ /, '');
+  res.opponent = res.opponent.trim();
   return res;
 }; //
 
 
-var parseGames = function parseGames(doc, title) {
+var parseGames = function parseGames(doc, meta) {
   var games = [];
   var s = doc.sections('regular season') || doc.sections('schedule and results');
 
@@ -143,7 +147,7 @@ var parseGames = function parseGames(doc, title) {
   tables.forEach(function (table) {
     var rows = table.keyValue();
     rows.forEach(function (row) {
-      games.push(parseGame(row, title));
+      games.push(parseGame(row, meta));
     });
   });
   games = games.filter(function (g) {
@@ -248,12 +252,15 @@ var parseRoster = function parseRoster(doc) {
 
 
 var parse = function parse(doc) {
+  var meta = parseTitle(doc.title());
   var res = {
-    title: parseTitle(doc.title()),
+    team: meta.team,
+    year: meta.year,
+    page: meta.season,
     roster: parseRoster(doc),
     season: infobox(doc)
   };
-  res.games = parseGames_1(doc, res.title);
+  res.games = parseGames_1(doc, meta);
   return res;
 };
 
