@@ -24,7 +24,7 @@ wtf-nhl gets structured data for nhl hockey teams, supports a bunch of different
 ```js
 const plugin = require('wtf-plugin-nhl')
 wtf.extend(plugin)
-wtf.getSeason('Toronto Blue Jays', 2018).then((data) => {
+wtf.getSeason('Toronto Maple Leafs', 2018).then((data) => {
   console.log(data)
   /*{
   games: [
