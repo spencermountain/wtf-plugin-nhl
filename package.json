@@ -1,7 +1,7 @@
 {
   "name": "wtf-plugin-nhl",
   "description": "nhl hockey data plugin for wtf_wikipedia",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "main": "./builds/wtf-plugin-nhl.js",
   "unpkg": "./builds/wtf-plugin-nhl.min.js",
   "module": "./builds/wtf-plugin-nhl.mjs",

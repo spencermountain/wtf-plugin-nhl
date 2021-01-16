@@ -19,5 +19,7 @@ const addMethod = function (models) {
     let page = makePage(team, year)
     return models.wtf.fetch(page).catch(console.log).then(parse)
   }
+  // add it here too
+  models.Doc.parseSeason = parse
 }
 module.exports = addMethod
